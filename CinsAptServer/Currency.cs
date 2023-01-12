@@ -22,7 +22,7 @@ namespace CinsAptServer
             usd = xmlDoc.SelectSingleNode("Tarih_Date/Currency[@Kod ='USD']/BanknoteSelling").InnerXml;
             eur = xmlDoc.SelectSingleNode("Tarih_Date/Currency[@Kod ='EUR']/BanknoteSelling").InnerXml;
 
-            return "USD: " + usd.Substring(0, 5) + "\n" + "EUR: " + eur.Substring(0, 5);
+            return  "\n"+usd.Substring(0, 5) +"\n"+eur.Substring(0, 5);
         }
 
 

@@ -29,20 +29,49 @@ namespace CinsAptServer
 
             InitializeComponent();
             Control.CheckForIllegalCrossThreadCalls = false;
-            currentWeatherText.Text = weather1.getWeather();
-            currencyText.Text = currency1.getCurrency();
+            getWeatherAndCurrency(weather1.getWeather() + currency1.getCurrency());
             StartServer();
             
         }
 
-       
 
-     
+        void getWeatherAndCurrency(string data)
+        {
+            string degree;
+            string city;
+            string weather;
+            string usd;
+            string eur;
 
-       
-       
+            string[] dataReceived = data.Split("\n");
+            degree = dataReceived[0];
+            city = dataReceived[1];
+            weather = dataReceived[2];
+            usd = dataReceived[3];
+            eur = dataReceived[4];
 
-       
+            degreeLabel.Text = degree;
+            cityLabel.Text = city;
+            weatherLabel.Text = weather;
+            usdLabel.Text = usd;
+            eurLabel.Text = eur;
+
+
+
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+
         private void StartServer()
         {
            
@@ -60,15 +89,16 @@ namespace CinsAptServer
         {
             Socket socket = server.EndAccept(AR);
             clientSockets.Add(socket);
+            server.BeginAccept(new AsyncCallback(AcceptCallBack), null);
             clientsListBox.Items.Add("Connected to: " + socket.RemoteEndPoint.ToString());
-            SendWeatherData(socket);
+           SendWeatherandCurrencyData(socket);
 
         }
 
-        private void SendWeatherData(Socket socket)
+        private void SendWeatherandCurrencyData(Socket socket)
         {
             
-            byte[] bytesToSend = Encoding.ASCII.GetBytes(weather1.getWeather());
+            byte[] bytesToSend = Encoding.ASCII.GetBytes(weather1.getWeather()+currency1.getCurrency());
             socket.BeginSend(bytesToSend, 0, bytesToSend.Length, SocketFlags.None, new AsyncCallback(SendData), socket);
            
         }
@@ -84,11 +114,11 @@ namespace CinsAptServer
         {
 
         }
-      
 
-       
-       
-
-
+        private void button1_Click(object sender, EventArgs e)
+        {
+            TcpChatServer server = new TcpChatServer();
+            server.Show();
+        }
     }
 }
