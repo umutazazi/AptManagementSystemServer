@@ -1,4 +1,6 @@
-# CinsAptServer
+# Apartment Management System
+
+
 By using the application, the residents 
 of the apartments in the apartment can access the 
 daily weather and exchange rates and 
